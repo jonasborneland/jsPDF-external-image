@@ -1,0 +1,25 @@
+function toDataUrl(url, callback) {
+    var xhr = new XMLHttpRequest();
+    xhr.onload = function() {
+        var reader = new FileReader();
+        reader.onloadend = function() {
+            callback(reader.result);
+        }
+        reader.readAsDataURL(xhr.response);
+    };
+    xhr.open('GET', url);
+    xhr.responseType = 'blob';
+    xhr.send();
+}
+toDataUrl(<?php echo "'".$this->baseurl."/templates/jjview/images/Aarshjul_bg.jpg"."'"; ?>, function(myBase64) {
+    doc.addImage(myBase64, 'JPEG', 0, 0, width, height );
+    doc.addImage(canvasImg, 'JPEG', marginL, marginT, chartW, chartH );
+    doc.setFont('TSTARPRO-Bold');
+    //doc.setFontType("bold");
+    doc.setFontSize(27);
+    doc.setTextColor(255,255,255);
+    doc.text(47, 40, 'ÅRSHJUL');
+    doc.setFont('TSTARPRO-Regular');
+    doc.text('Hi How are you', width-47, 40, 'right');
+    doc.save('canvas.pdf');
+});
